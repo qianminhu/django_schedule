@@ -1,0 +1,206 @@
+<style>
+#header {
+    background-color:orangered;
+    color:white;
+    text-align:center;
+    padding:5px;
+}
+#nav {
+    line-height:30px;
+    background-color:#eeeeee;
+    width:200px;
+    float:right;
+    padding:5px;
+}
+#section {
+    width:300px;
+    float:left;
+    padding:10px;
+    text-align:left;
+}
+#footer {
+    background-color:dimgrey;
+    color:white;
+    clear:both;
+    text-align:center;
+    padding:5px;
+}
+#weekcal {
+    margin-top:-400px ;
+    line-height:90px;
+    z-index: -1;
+    left: 200px;
+    right: 50px;
+    position: absolute;
+}
+</style>
+
+<body>
+    <div id="header">
+        <center>
+            <h1>EatWith Task List!</h1>
+        </center>
+    </div>
+
+    <div id="footer">
+        {% if task_list %}
+            {% for task in task_list %}
+                <li><b>{{task.task_type}}</b>: {{task.person_in_charge}} | <i>{{task.date_due}}</i>,  <i>{{task.frequency}}</i></li>
+            {% endfor %}
+        {% else %}
+            <p>No tasks are available.</p>
+        {% endif %}
+    </div>
+
+    <div id="nav">
+        <h3>Task descriptions</h3>
+        <b>Kitchen Duty: </b><br>
+        Clean dishes, etc.<br><br>
+        <b>P.O.C: </b><br>
+        Whatever a P.O.C. does!<br><br>
+        <b>Friday Chef: </b><br>
+        In charge of cooking lunch on Friday. <br><br>
+    </div>
+
+    <!--or could use a for loop and do task_type : task.description -->
+    <table border="1">
+        <th>
+            <div id="section">
+                <center>
+                    <h2>Add a task:</h2>
+                    <form action="/tasks/add/" method="post" accept-charset="utf-8"> <!-- or have it be action="/output/"-->
+                        {% csrf_token %}
+                        Person in charge: <input type="text" name="person_in_charge"><br><br> <!--or create a for loop that loops for every user there is-->
+                        Task type: {{ TaskTypeForm }}
+                        Task type: <select name="task_type">
+                            <option value="'0">---</option>
+                            <option value="Kitchen Duty">Kitchen Duty</option>
+                            <option value=P.O.C>P.O.C.</option>
+                            <option value="Friday Chef">Friday Chef</option>
+                        </select><br><br>
+                        Date Due: <input type="date" name="date_due"><br><br>
+                        Frequency: <select name="frequency">
+                            <option value="'0">---</option>
+                            <option value="One Time">One Time</option>
+                            <option value="Weekly">Weekly</option>
+                            <option value="Monthly">Monthly</option>
+                        </select><br><br>
+                       <input type="submit" value="Enter" onclick="added()">
+
+                        <script>
+                            function added() {
+                                alert("Task Added!");
+                            }
+                        </script>
+                    </form>
+                </center>
+            </div>
+        </th>
+    </table>
+
+    <div id="weekcal">
+        <center>
+            <h2><br>
+                Week of June 26{{ day.now }} to July 2{{ day.now }}
+                <!-- todo: have the second day.now to be somehow day.now+7 and delete hardcoded dates and have just date, not datetime-->
+            </h2>
+            <style>
+            table, th, td {
+                border: 1px solid black;
+                <!-- border-collapse: collapse; -->
+            }
+            th, td {
+                padding: 10px;
+                text-align: left;
+            }
+            </style>
+            </head>
+            <body>
+
+            <table style="width:400px">
+              <thread>
+                <tr>
+                  <th><i>Today: </i>{{ today }}</th>
+                  <th>{{ daytwo }}</th>
+                  <th>{{ daythree }}</th>
+                  <th>{{ dayfour }}</th>
+                  <th>{{ dayfive }}</th>
+                  <th>{{ daysix }}</th>
+                  <th>{{ dayseven }}</th>
+                </tr>
+              </thread>
+              <tbody>
+                <tr>
+                  <th>
+                      {% if task_list %}
+                        {% for task in task_list %}
+                            {% if task.is_due_today %}
+                                <i>{{task.date_due}}</i> <b>{{task.task_type}}</b> : {{ task.person_in_charge }} <br><br>
+                            {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                  </th>
+                  <th>
+                      {% if task_list %}
+                        {% for task in task_list %}
+                            {% if task.is_due_two %}
+                                <i>{{task.date_due}}</i> <b>{{task.task_type}}</b> : {{ task.person_in_charge }} <br><br>
+                            {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                  </th>
+                  <th>
+                      {% if task_list %}
+                        {% for task in task_list %}
+                            {% if task.is_due_three %}
+                                <i>{{task.date_due}}</i> <b>{{task.task_type}}</b> : {{ task.person_in_charge }} <br><br>
+                            {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                  </th>
+                  <th>
+                      {% if task_list %}
+                        {% for task in task_list %}
+                            {% if task.is_due_four %}
+                                <i>{{task.date_due}}</i> <b>{{task.task_type}}</b> : {{ task.person_in_charge }} <br><br>
+                            {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                  </th>
+                  <th>
+                      {% if task_list %}
+                        {% for task in task_list %}
+                            {% if task.is_due_five %}
+                                <i>{{task.date_due}}</i> <b>{{task.task_type}}</b> : {{ task.person_in_charge }} <br><br>
+                            {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                  </th>
+                  <th>
+                      {% if task_list %}
+                        {% for task in task_list %}
+                            {% if task.is_due_six %}
+                                <i>{{task.date_due}}</i> <b>{{task.task_type}}</b> : {{ task.person_in_charge }} <br><br>
+                            {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                  </th>
+                  <th>
+                      {% if task_list %}
+                        {% for task in task_list %}
+                            {% if task.is_due_seven %}
+                                <i>{{task.date_due}}</i> <b>{{task.task_type}}</b> : {{ task.person_in_charge }} <br><br>
+                            {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                  </th>
+                </tr>
+              </tbody>
+            </table>
+        </center>
+    </div>
+
+</body>
+
+<!-- also todo: fix CSS of weekcal to move it up -->
+<!-- margin-top:-400px is perfect but doesn't show the week of heading -->
